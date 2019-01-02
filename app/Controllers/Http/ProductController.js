@@ -11,13 +11,6 @@ class ProductController {
   }
 
   /**
-   * Show all product types
-   */
-  async showTypes({ response }) {
-    return response.status(201).json(['mobile phone', 'notebook', 'printer', 'televisor']);
-  }
-
-  /**
    * Create/save a new product.
    * POST products
    */
@@ -55,7 +48,7 @@ class ProductController {
    * DELETE products/:id
    */
   async destroy({ response, params: { id } }) {
-    return response.status(205).json({ message: `Product id${id} deleted` });
+    return response.status(204).json({ message: `Product id${id} deleted` });
   }
 }
 
