@@ -4,7 +4,6 @@ class ProductController {
   /**
    * Show a list of all products.
    * GET products
-   *
    */
   async index() {
     return Product.all();
@@ -14,8 +13,8 @@ class ProductController {
    * Create/save a new product.
    * POST products
    */
-  async store({ request, response }) {
-    return response.status(201).json(request.all());
+  async store({ request }) {
+    return request.all();
   }
 
   /**
@@ -24,31 +23,31 @@ class ProductController {
    */
   async show({ response, params: { id } }) {
     if (id === '1') {
-      return response.status(200).json({
-        product_id: id,
+      return {
+        id,
         product: 'Nokia 5230',
         type: 'mobile phone',
         price: '₴190'
-      });
+      };
     }
 
-    return response.status(404).json({ message: `Product id${id} not found` });
+    return { message: `Product id${id} not found` };
   }
 
   /**
    * Update product details.
    * PUT or PATCH products/:id
    */
-  async update({ response, params: { id } }) {
-    return response.status(202).json({ message: `Product id${id} updated` });
+  async update({ params: { id } }) {
+    return { message: `Product id${id} updated` };
   }
 
   /**
    * Delete a product with id.
    * DELETE products/:id
    */
-  async destroy({ response, params: { id } }) {
-    return response.status(204).json({ message: `Product id${id} deleted` });
+  async destroy({ params: { id } }) {
+    return { message: `Product id${id} deleted` };
   }
 }
 
