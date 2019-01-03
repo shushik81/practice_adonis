@@ -1,3 +1,4 @@
+/** @type {import('@adonisjs/lucid/src/Schema')} */
 const Schema = use('Schema');
 
 class TokensSchema extends Schema {
@@ -8,8 +9,7 @@ class TokensSchema extends Schema {
         .integer('user_id')
         .unsigned()
         .references('id')
-        .inTable('users')
-        .onDelete('cascade');
+        .inTable('users');
       table
         .string('token', 255)
         .notNullable()

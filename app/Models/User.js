@@ -1,5 +1,7 @@
+/** @type {typeof import('@adonisjs/lucid/src/Lucid/Model')} */
 const Model = use('Model');
 
+/** @type {import('@adonisjs/framework/src/Hash')} */
 const Hash = use('Hash');
 
 class User extends Model {
@@ -29,10 +31,6 @@ class User extends Model {
    */
   tokens() {
     return this.hasMany('App/Models/Token');
-  }
-
-  products() {
-    return this.hasMany('App/Models/Product');
   }
 }
 
