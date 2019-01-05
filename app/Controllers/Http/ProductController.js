@@ -14,41 +14,48 @@ class ProductController {
    * Create/save a new product.
    * POST products
    */
-  async store({ request, response }) {
-    return response.status(201).json(request.all());
+  async store({ request }) {
+    const { name, user_id = 1, type_id = 1, attributes } = request.all();
+    const product = await Product.create({ name, user_id, type_id });
+    product.attributes = await product.productAttributes().createMany(attributes);
+    return product;
   }
 
   /**
    * Display a single product.
    * GET products/:id
    */
-  async show({ response, params: { id } }) {
-    if (id === '1') {
-      return response.status(200).json({
-        product_id: id,
-        product: 'Nokia 5230',
-        type: 'mobile phone',
-        price: '₴190'
-      });
-    }
-
-    return response.status(404).json({ message: `Product id${id} not found` });
+  async show({ params }) {
+    const { id } = params;
+    return Product.findOrFail(id);
   }
 
   /**
    * Update product details.
    * PUT or PATCH products/:id
    */
-  async update({ response, params: { id } }) {
-    return response.status(202).json({ message: `Product id${id} updated` });
+  async update({ request, params: { id } }) {
+    const { name, user_id = 1, type_id = 1, attributes } = request.all();
+    const product = await Product.findOrFail(id);
+    await product.merge({ name, user_id, type_id });
+    await product.save();
+
+    if (attributes) {
+      product.attributes = await product.productAttributes().saveMany(attributes);
+    }
+    return product;
   }
 
   /**
    * Delete a product with id.
    * DELETE products/:id
    */
-  async destroy({ response, params: { id } }) {
-    return response.status(204).json({ message: `Product id${id} deleted` });
+  async destroy({ params }) {
+    const { id } = params;
+    const product = await Product.findOrFail(id);
+    await product.delete();
+
+    return { message: 'Ok' };
   }
 }
 
