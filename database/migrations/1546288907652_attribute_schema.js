@@ -5,7 +5,7 @@ class AttributeSchema extends Schema {
     this.create('attributes', table => {
       table.increments();
       table.integer('type_id').notNullable();
-      table.string('name', 255).notNullable();
+      table.string('name').notNullable();
 
       table
         .foreign('type_id')

@@ -21,7 +21,7 @@ class ProductController {
    * Display a single product.
    * GET products/:id
    */
-  async show({ response, params: { id } }) {
+  async show({ params: { id } }) {
     if (id === '1') {
       return {
         id,

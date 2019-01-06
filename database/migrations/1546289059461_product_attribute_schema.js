@@ -7,7 +7,6 @@ class ProductAttributeSchema extends Schema {
       table.integer('product_id').notNullable();
       table.integer('attribute_id').notNullable();
       table.text('value');
-      table.timestamp('created_at').defaultTo(this.fn.now());
 
       table
         .foreign('product_id')
