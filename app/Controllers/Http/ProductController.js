@@ -1,21 +1,12 @@
+const Product = use('App/Models/Product');
+
 class ProductController {
   /**
    * Show a list of all products.
    * GET products
    */
   async index() {
-    return [
-        { id: 1, product: 'Nokia 5230', type: 'mobile phone', price: '₴190' },
-        { id: 2, product: 'Nokia 5800', type: 'mobile phone', price: '₴290' },
-        { id: 3, product: 'Canon MP230', type: 'printer', price: '₴790' }
-      ];
-  }
-
-  /**
-   * Show all product types
-   */
-  async showTypes() {
-    return ['mobile phone', 'notebook', 'printer', 'televisor'];
+    return Product.all();
   }
 
   /**
@@ -30,7 +21,7 @@ class ProductController {
    * Display a single product.
    * GET products/:id
    */
-  async show({ response, params: { id } }) {
+  async show({ params: { id } }) {
     if (id === '1') {
       return {
         id,

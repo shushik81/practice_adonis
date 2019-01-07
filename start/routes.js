@@ -17,9 +17,9 @@ Route.put('/types/:id', 'TypeController.update');
 Route.patch('/types/:id', 'TypeController.update');
 Route.delete('/types/:id', 'TypeController.destroy');
 
-Route.get('/types/:type/attrs', 'AttrController.index');
-Route.post('/types/:type/attrs', 'AttrController.store');
-Route.get('/types/:type/attrs/:id', 'AttrController.show');
-Route.put('/types/:type/attrs/:id', 'AttrController.update');
-Route.patch('/types/:type/attrs/:id', 'AttrController.update');
-Route.delete('/types/:type/attrs/:id', 'AttrController.destroy');
+Route.get('/types/:type_id/attrs', 'AttributeController.index');
+Route.post('/types/:type_id/attrs', 'AttributeController.store');
+Route.get('/attrs/:id', 'AttributeController.show');
+Route.put('/types/:type_id/attrs/:id', 'AttributeController.update');
+Route.patch('/types/:type_id/attrs/:id', 'AttributeController.update');
+Route.delete('/attrs/:id', 'AttributeController.destroy');
