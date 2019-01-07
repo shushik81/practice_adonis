@@ -15,8 +15,8 @@ class ProductController {
    * POST products
    */
   async store({ request }) {
-    const { name, user_id = 1, type_id = 1, attributes } = request.all();
-    const product = await Product.create({ name, user_id, type_id });
+    const { name, user_id: userId, type_id: typeId, attributes } = request.all();
+    const product = await Product.create({ name, user_id: userId, type_id: typeId });
     product.attributes = await product.productAttributes().createMany(attributes);
     return product;
   }

@@ -27,8 +27,9 @@ class AttributeController {
    * Display a single attr.
    * GET attrs/:id
    */
-  async show({ params: id }) {
-    return Attribute.find(id);
+  async show({ params }) {
+    const { id } = params;
+    return Attribute.findOrFail(id);
   }
 
   /**
