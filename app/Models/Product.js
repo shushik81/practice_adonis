@@ -1,8 +1,9 @@
 const Model = use('Model');
 
 class Product extends Model {
-  productAttributes() {
-    return this.hasMany('App/Models/ProductAttribute');
+  static boot() {
+    super.boot();
+    this.addTrait('Repository');
   }
 
   attributes() {

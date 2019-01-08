@@ -13,8 +13,10 @@ class TypeController {
    * Create/save a new type.
    * POST types
    */
-  async store({ request }) {
+  async store({ response, request }) {
     const { name } = request.all();
+    response.status(201);
+
     return Type.create({ name });
   }
 
@@ -31,25 +33,23 @@ class TypeController {
    * Update type details.
    * PUT or PATCH types/:id
    */
-  async update({ request, params }) {
+  async update({ response, request, params }) {
     const { id } = params;
     const { name } = request.all();
-    const type = await Type.findOrFail(id);
-    await type.merge({ name });
-    await type.save();
-    return type;
+    response.status(201);
+
+    return Type.updateType(id, name);
   }
 
   /**
    * Delete a type with id.
    * DELETE types/:id
    */
-  async destroy({ params }) {
+  async destroy({ response, params }) {
     const { id } = params;
-    const type = await Type.findOrFail(id);
-    await type.delete();
+    await Type.deleteType(id);
 
-    return { message: 'Ok' };
+    return response.status(204);
   }
 }
 

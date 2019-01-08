@@ -14,11 +14,11 @@ class ProductController {
    * Create/save a new product.
    * POST products
    */
-  async store({ request }) {
-    const { name, user_id: userId, type_id: typeId, attributes } = request.all();
-    const product = await Product.create({ name, user_id: userId, type_id: typeId });
-    product.attributes = await product.productAttributes().createMany(attributes);
-    return product;
+  async store({ response, request }) {
+    const { name, user_id: userId, type_id: typeId, price, attributes } = request.all();
+    response.status(201);
+
+    return Product.addProduct(name, userId, typeId, price, attributes);
   }
 
   /**
@@ -34,28 +34,23 @@ class ProductController {
    * Update product details.
    * PUT or PATCH products/:id
    */
-  async update({ request, params: { id } }) {
-    const { name, user_id = 1, type_id = 1, attributes } = request.all();
-    const product = await Product.findOrFail(id);
-    await product.merge({ name, user_id, type_id });
-    await product.save();
+  async update({ response, request, params }) {
+    const { id } = params;
+    const { name, user_id: userId, type_id: typeId, price, attributes } = request.all();
+    response.status(201);
 
-    if (attributes) {
-      product.attributes = await product.productAttributes().saveMany(attributes);
-    }
-    return product;
+    return Product.updateProduct(id, name, userId, typeId, price, attributes);
   }
 
   /**
    * Delete a product with id.
    * DELETE products/:id
    */
-  async destroy({ params }) {
+  async destroy({ response, params }) {
     const { id } = params;
-    const product = await Product.findOrFail(id);
-    await product.delete();
+    await Product.deleteType(id);
 
-    return { message: 'Ok' };
+    return response.status(204);
   }
 }
 

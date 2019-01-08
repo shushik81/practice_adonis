@@ -1,4 +1,4 @@
-const Attribute = use('App/Models/Attribute');
+const Type = use('App/Models/Type');
 
 class AttributeController {
   /**
@@ -7,20 +7,20 @@ class AttributeController {
    */
   async index({ params }) {
     const { type_id: typeId } = params;
-    return Attribute.query()
-      .select()
-      .where('type_id', typeId)
-      .fetch();
+
+    return Type.findAttrs(typeId);
   }
 
   /**
    * Create/save a new attr.
    * POST attrs
    */
-  async store({ request, params }) {
+  async store({ response, request, params }) {
     const { type_id: typeId } = params;
     const { name } = request.all();
-    return Attribute.create({ type_id: typeId, name });
+    response.status(201);
+
+    return Type.addAttr(typeId, name);
   }
 
   /**
@@ -28,8 +28,9 @@ class AttributeController {
    * GET attrs/:id
    */
   async show({ params }) {
-    const { id } = params;
-    return Attribute.findOrFail(id);
+    const { type_id: typeId, id } = params;
+
+    return Type.findAttr(typeId, id);
   }
 
   /**
@@ -40,22 +41,18 @@ class AttributeController {
     const { type_id: typeId, id } = params;
     const { name } = request.all();
 
-    const attr = await Attribute.findOrFail(id);
-    await attr.merge({ type_id: typeId, name });
-    await attr.save();
-    return attr;
+    return Type.updateAttr(typeId, id, name);
   }
 
   /**
    * Delete a attr with id.
    * DELETE attrs/:id
    */
-  async destroy({ params }) {
-    const { id } = params;
-    const attr = await Attribute.findOrFail(id);
-    await attr.delete();
+  async destroy({ response, params }) {
+    const { type_id: typeId, id } = params;
+    await Type.deleteAttr(typeId, id);
 
-    return { message: 'Ok' };
+    return response.status(204);
   }
 }
 
