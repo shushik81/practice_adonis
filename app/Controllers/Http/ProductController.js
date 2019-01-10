@@ -4,50 +4,53 @@ class ProductController {
   /**
    * Show a list of all products.
    * GET products
+   *
    */
   async index() {
-    return Product.all();
+    return Product.findAllProducts();
   }
 
   /**
    * Create/save a new product.
    * POST products
    */
-  async store({ request }) {
-    return request.all();
+  async store({ response, request }) {
+    const { name, user_id: userId, type_id: typeId, price, attributes } = request.all();
+    response.status(201);
+
+    return Product.addProduct(name, userId, typeId, price, attributes);
   }
 
   /**
    * Display a single product.
    * GET products/:id
    */
-  async show({ params: { id } }) {
-    if (id === '1') {
-      return {
-        id,
-        product: 'Nokia 5230',
-        type: 'mobile phone',
-        price: '₴190'
-      };
-    }
-
-    return { message: `Product id${id} not found` };
+  async show({ params }) {
+    const { id } = params;
+    return Product.findProduct(id);
   }
 
   /**
    * Update product details.
    * PUT or PATCH products/:id
    */
-  async update({ params: { id } }) {
-    return { message: `Product id${id} updated` };
+  async update({ response, request, params }) {
+    const { id } = params;
+    const { name, user_id: userId, type_id: typeId, price, attributes } = request.all();
+    response.status(201);
+
+    return Product.updateProduct(id, name, userId, typeId, price, attributes);
   }
 
   /**
    * Delete a product with id.
    * DELETE products/:id
    */
-  async destroy({ params: { id } }) {
-    return { message: `Product id${id} deleted` };
+  async destroy({ response, params }) {
+    const { id } = params;
+    await Product.deleteProduct(id);
+
+    return response.status(204);
   }
 }
 
