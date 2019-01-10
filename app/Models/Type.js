@@ -1,11 +1,6 @@
-const Model = use('Model');
+const Base = require('./Base');
 
-class Type extends Model {
-  static boot() {
-    super.boot();
-    this.addTrait('Repository');
-  }
-
+class Type extends Base {
   attributes() {
     return this.hasMany('App/Models/Attribute');
   }

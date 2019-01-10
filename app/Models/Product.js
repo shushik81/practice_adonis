@@ -1,13 +1,10 @@
-const Model = use('Model');
+const Base = require('./Base');
 
-class Product extends Model {
-  static boot() {
-    super.boot();
-    this.addTrait('Repository');
-  }
-
+class Product extends Base {
   attributes() {
-    return this.belongsToMany('App/Models/Attribute').pivotModel('App/Models/ProductAttribute');
+    return this.belongsToMany('App/Models/Attribute')
+      .pivotModel('App/Models/ProductAttribute')
+      .withPivot('value');
   }
 
   static get updatedAtColumn() {

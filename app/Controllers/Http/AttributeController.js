@@ -1,4 +1,4 @@
-const Type = use('App/Models/Type');
+const Attribute = use('App/Models/Attribute');
 
 class AttributeController {
   /**
@@ -8,7 +8,7 @@ class AttributeController {
   async index({ params }) {
     const { type_id: typeId } = params;
 
-    return Type.findAttrs(typeId);
+    return Attribute.findAttrs(typeId);
   }
 
   /**
@@ -20,7 +20,7 @@ class AttributeController {
     const { name } = request.all();
     response.status(201);
 
-    return Type.addAttr(typeId, name);
+    return Attribute.addAttr(typeId, name);
   }
 
   /**
@@ -30,7 +30,7 @@ class AttributeController {
   async show({ params }) {
     const { type_id: typeId, id } = params;
 
-    return Type.findAttr(typeId, id);
+    return Attribute.findAttr(typeId, id);
   }
 
   /**
@@ -41,7 +41,7 @@ class AttributeController {
     const { type_id: typeId, id } = params;
     const { name } = request.all();
 
-    return Type.updateAttr(typeId, id, name);
+    return Attribute.updateAttr(typeId, id, name);
   }
 
   /**
@@ -50,7 +50,7 @@ class AttributeController {
    */
   async destroy({ response, params }) {
     const { type_id: typeId, id } = params;
-    await Type.deleteAttr(typeId, id);
+    await Attribute.deleteAttr(typeId, id);
 
     return response.status(204);
   }

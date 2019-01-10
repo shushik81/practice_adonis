@@ -7,7 +7,7 @@ class ProductController {
    *
    */
   async index() {
-    return Product.all();
+    return Product.findAllProducts();
   }
 
   /**
@@ -27,7 +27,7 @@ class ProductController {
    */
   async show({ params }) {
     const { id } = params;
-    return Product.findOrFail(id);
+    return Product.findProduct(id);
   }
 
   /**
@@ -48,7 +48,7 @@ class ProductController {
    */
   async destroy({ response, params }) {
     const { id } = params;
-    await Product.deleteType(id);
+    await Product.deleteProduct(id);
 
     return response.status(204);
   }
