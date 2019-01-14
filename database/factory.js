@@ -1,6 +1,5 @@
 const Factory = use('Factory');
 
-Factory.blueprint('App/Models/Attribute', (faker, i, data) => ({
-  id: data[i],
+Factory.blueprint('App/Models/ProductAttribute', faker => ({
   value: faker.string({ length: 15 })
 }));

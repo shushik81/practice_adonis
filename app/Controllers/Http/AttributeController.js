@@ -15,7 +15,8 @@ class AttributeController {
    * Create/save a new attr.
    * POST attrs
    */
-  async store({ response, request, params }) {
+  async store({ response, request, params, auth }) {
+    await auth.check();
     const { type_id: typeId } = params;
     const { name } = request.all();
     response.status(201);
@@ -37,7 +38,8 @@ class AttributeController {
    * Update attr details.
    * PUT or PATCH attrs/:id
    */
-  async update({ request, params }) {
+  async update({ request, params, auth }) {
+    await auth.check();
     const { type_id: typeId, id } = params;
     const { name } = request.all();
 
@@ -48,7 +50,8 @@ class AttributeController {
    * Delete a attr with id.
    * DELETE attrs/:id
    */
-  async destroy({ response, params }) {
+  async destroy({ response, params, auth }) {
+    await auth.check();
     const { type_id: typeId, id } = params;
     await Attribute.deleteAttr(typeId, id);
 
