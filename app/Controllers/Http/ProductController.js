@@ -6,8 +6,9 @@ class ProductController {
    * GET products
    *
    */
-  async index() {
-    return Product.findAllProducts();
+  async index({ request }) {
+    const { page = 1, per_page: perPage = 10, order = 'id', sort = 'ASC' } = request.all();
+    return Product.findAllProducts(page, perPage, order, sort);
   }
 
   /**

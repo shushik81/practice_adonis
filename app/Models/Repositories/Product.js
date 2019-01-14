@@ -29,10 +29,11 @@ class Product {
     await product.delete();
   }
 
-  static async findAllProducts() {
-    const { rows: products } = await this.all();
-    const prodAttrs = products.map(product => product.load('attributes'));
-    await Promise.all(prodAttrs);
+  static async findAllProducts(page, perPage, order, sort) {
+    const { rows: products } = await this.query()
+      .with('attributes')
+      .orderBy(order, sort)
+      .paginate(page, perPage);
     return products;
   }
 
