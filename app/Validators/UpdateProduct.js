@@ -18,13 +18,14 @@ Validator.extend('attrs', attrsFn);
 class StoreProduct {
   get rules() {
     return {
-      name: 'min:2|max:255',
-      attributes: 'array|attrs'
+      name: 'required|min:2|max:255',
+      attributes: 'required|array|attrs'
     };
   }
 
   get messages() {
     return {
+      required: '{{ field }} required field',
       min: '{{ field }} must be at least 2 characters long',
       max: '{{ field }} must be a maximum 255 characters long',
       attrs: '{{ field }} must contain attributes{id, value}'

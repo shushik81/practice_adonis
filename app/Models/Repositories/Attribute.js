@@ -1,18 +1,18 @@
 const Type = use('App/Models/Type');
 
 class Attribute {
-  static async findAttrs(typeId) {
+  static async findAttrs({ type_id: typeId }) {
     const type = await Type.findOrFail(typeId);
     return type.attributes().fetch();
   }
 
-  static async addAttr(typeId, name) {
+  static async addAttr({ name, type_id: typeId }) {
     console.log(this);
     const type = await Type.findOrFail(typeId);
     return type.attributes().create({ name });
   }
 
-  static async findAttr(typeId, id) {
+  static async findAttr({ id, type_id: typeId }) {
     const type = await Type.findOrFail(typeId);
     return type
       .attributes()
@@ -20,15 +20,15 @@ class Attribute {
       .firstOrFail();
   }
 
-  static async updateAttr(typeId, id, name) {
-    const attr = await this.findAttr(typeId, id);
+  static async updateAttr({ id, type_id: typeId, name }) {
+    const attr = await this.findAttr({ id, type_id: typeId });
     await attr.merge({ name });
     await attr.save();
     return attr;
   }
 
-  static async deleteAttr(typeId, id) {
-    const attr = await this.findAttr(typeId, id);
+  static async deleteAttr({ id, type_id: typeId }) {
+    const attr = await this.findAttr({ id, type_id: typeId });
     await attr.delete();
   }
 }

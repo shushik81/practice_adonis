@@ -1,8 +1,7 @@
 class ValidateAttribute {
   get rules() {
     return {
-      name: 'required|min:2|max:255',
-      type_id: 'required'
+      name: 'required|min:2|max:255'
     };
   }
 

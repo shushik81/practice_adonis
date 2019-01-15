@@ -16,13 +16,24 @@ const attrsFn = async (data, field, message) => {
   }
 };
 
-Validator.extend('attrs', attrsFn);
+Validator.extend('types', attrsFn);
+
+const typeFn = async (data, field, message) => {
+  const { type_id: typeId } = data;
+  const type = await Type.find(typeId);
+
+  if (!type) {
+    throw message;
+  }
+};
+
+Validator.extend('types', typeFn);
 
 class StoreProduct {
   get rules() {
     return {
       name: 'required|min:2|max:255',
-      type_id: 'required',
+      type_id: 'required|types',
       price: 'required',
       attributes: 'required|array|attrs'
     };
