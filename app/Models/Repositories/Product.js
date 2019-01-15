@@ -28,9 +28,21 @@ class Product {
     await product.delete();
   }
 
-  static async findAllProducts({ page = 1, per_page: perPage = 10, order = 'id', sort = 'ASC' }) {
+  static async findAllProducts({
+    page = 1,
+    per_page: perPage = 10,
+    order = 'id',
+    sort = 'ASC',
+    field = null,
+    value = null
+  }) {
     const { rows: products } = await this.query()
-      .column(['user_id', 'type_id'])
+      .column(['name', 'user_id', 'type_id'])
+      .where(function() {
+        if (field && value) {
+          this.where(field, value);
+        }
+      })
       .orderBy(order, sort)
       .paginate(page, perPage);
     return products;

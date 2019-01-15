@@ -7,7 +7,7 @@ class ProductController {
    *
    */
   async index({ request }) {
-    return Product.findAllProducts(request.only(['page', 'per_page', 'order', 'sort']));
+    return Product.findAllProducts(request.only(['page', 'per_page', 'order', 'sort', 'field', 'value']));
   }
 
   /**
