@@ -13,7 +13,8 @@ class AttributeController {
    * Create/save a new attr.
    * POST attrs
    */
-  async store({ response, request, params }) {
+  async store({ response, request, params, auth }) {
+    await auth.check();
     response.status(201);
     return Attribute.addAttr({ ...params, ...request.only(['name']) });
   }
@@ -30,7 +31,8 @@ class AttributeController {
    * Update attr details.
    * PUT or PATCH attrs/:id
    */
-  async update({ request, params }) {
+  async update({ request, params, auth }) {
+    await auth.check();
     return Attribute.updateAttr({ ...params, ...request.only(['name']) });
   }
 
@@ -38,9 +40,10 @@ class AttributeController {
    * Delete a attr with id.
    * DELETE attrs/:id
    */
-  async destroy({ response, params }) {
+  async destroy({ response, params, auth }) {
+    await auth.check();
     await Attribute.deleteAttr(params);
-    return response.status(204);
+    return response.status(204).json(null);
   }
 }
 

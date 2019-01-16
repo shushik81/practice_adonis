@@ -14,9 +14,9 @@ class ProductController {
    * Create/save a new product.
    * POST products
    */
-  async store({ response, request }) {
-    response.status(201);
-    return Product.addProduct(request.only(['name', 'user_id', 'type_id', 'price', 'attributes']));
+  async store({ response, request, auth }) {
+    const user = await auth.getUser();
+    return Product.addProduct({ user, response, ...request.only(['name', 'type_id', 'price', 'attributes']) });
   }
 
   /**
@@ -31,20 +31,23 @@ class ProductController {
    * Update product details.
    * PUT or PATCH products/:id
    */
-  async update({ response, request, params }) {
-    response.status(201);
-
-    return Product.updateProduct({ ...params, ...request.only(['name', 'user_id', 'type_id', 'price', 'attributes']) });
+  async update({ response, request, params, auth }) {
+    const user = await auth.getUser();
+    return Product.updateProduct({
+      user,
+      response,
+      ...params,
+      ...request.only(['name', 'user_id', 'type_id', 'price', 'attributes'])
+    });
   }
 
   /**
    * Delete a product with id.
    * DELETE products/:id
    */
-  async destroy({ response, params }) {
-    await Product.deleteProduct(params);
-
-    return response.status(204);
+  async destroy({ response, params, auth }) {
+    const user = await auth.getUser();
+    return Product.deleteProduct({ user, response, ...params });
   }
 }
 
