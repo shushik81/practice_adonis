@@ -6,8 +6,8 @@ class ProductController {
    * GET products
    *
    */
-  async index() {
-    return Product.findAllProducts();
+  async index({ request }) {
+    return Product.findAllProducts(request.only(['page', 'per_page', 'order', 'sort', 'field', 'value']));
   }
 
   /**
@@ -15,10 +15,8 @@ class ProductController {
    * POST products
    */
   async store({ response, request }) {
-    const { name, user_id: userId, type_id: typeId, price, attributes } = request.all();
     response.status(201);
-
-    return Product.addProduct(name, userId, typeId, price, attributes);
+    return Product.addProduct(request.only(['name', 'user_id', 'type_id', 'price', 'attributes']));
   }
 
   /**
@@ -26,8 +24,7 @@ class ProductController {
    * GET products/:id
    */
   async show({ params }) {
-    const { id } = params;
-    return Product.findProduct(id);
+    return Product.findProduct(params);
   }
 
   /**
@@ -35,11 +32,9 @@ class ProductController {
    * PUT or PATCH products/:id
    */
   async update({ response, request, params }) {
-    const { id } = params;
-    const { name, user_id: userId, type_id: typeId, price, attributes } = request.all();
     response.status(201);
 
-    return Product.updateProduct(id, name, userId, typeId, price, attributes);
+    return Product.updateProduct({ ...params, ...request.only(['name', 'user_id', 'type_id', 'price', 'attributes']) });
   }
 
   /**
@@ -47,8 +42,7 @@ class ProductController {
    * DELETE products/:id
    */
   async destroy({ response, params }) {
-    const { id } = params;
-    await Product.deleteProduct(id);
+    await Product.deleteProduct(params);
 
     return response.status(204);
   }

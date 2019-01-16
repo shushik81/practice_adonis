@@ -34,11 +34,8 @@ class TypeController {
    * PUT or PATCH types/:id
    */
   async update({ response, request, params }) {
-    const { id } = params;
-    const { name } = request.all();
     response.status(201);
-
-    return Type.updateType(id, name);
+    return Type.updateType({ ...params, ...request.only(['name']) });
   }
 
   /**
@@ -46,9 +43,7 @@ class TypeController {
    * DELETE types/:id
    */
   async destroy({ response, params }) {
-    const { id } = params;
-    await Type.deleteType(id);
-
+    await Type.deleteType(params);
     return response.status(204);
   }
 }
