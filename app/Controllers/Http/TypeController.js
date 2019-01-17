@@ -13,8 +13,7 @@ class TypeController {
    * Create/save a new type.
    * POST types
    */
-  async store({ response, request, auth }) {
-    await auth.check();
+  async store({ response, request }) {
     response.status(201);
     return Type.create(request.only(['name']));
   }
@@ -32,8 +31,7 @@ class TypeController {
    * Update type details.
    * PUT or PATCH types/:id
    */
-  async update({ response, request, params, auth }) {
-    await auth.check();
+  async update({ response, request, params }) {
     response.status(201);
     return Type.updateType({ ...params, ...request.only(['name']) });
   }
@@ -42,10 +40,9 @@ class TypeController {
    * Delete a type with id.
    * DELETE types/:id
    */
-  async destroy({ response, params, auth }) {
-    await auth.check();
+  async destroy({ response, params }) {
     await Type.deleteType(params);
-    return response.status(204).json(null);
+    return response.status(204).json();
   }
 }
 

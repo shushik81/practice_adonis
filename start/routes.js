@@ -5,7 +5,12 @@ Route.post('/login', 'AuthController.login').middleware('guest');
 
 Route.resource('/products', 'ProductController')
   .validator(new Map([[['/products.store'], ['StoreProduct']], [['/products.update'], ['UpdateProduct']]]))
-  .middleware(new Map([[['/products.store', '/products.update', '/products.destroy'], ['auth']]]));
+  .middleware(
+    new Map([
+      [['/products.store', '/products.update', '/products.destroy'], ['auth']],
+      [['/products.update', '/products.destroy'], ['role:admin']]
+    ])
+  );
 
 Route.resource('/types', 'TypeController')
   .validator(new Map([[['/types.store', '/types.update'], ['ValidateType']]]))

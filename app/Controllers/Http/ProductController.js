@@ -16,7 +16,11 @@ class ProductController {
    */
   async store({ response, request, auth }) {
     const user = await auth.getUser();
-    return Product.addProduct({ user, response, ...request.only(['name', 'type_id', 'price', 'attributes']) });
+    response.status(201);
+    return Product.addProduct({
+      user,
+      ...request.only(['name', 'type_id', 'price', 'attributes'])
+    });
   }
 
   /**
@@ -33,11 +37,11 @@ class ProductController {
    */
   async update({ response, request, params, auth }) {
     const user = await auth.getUser();
+    response.status(201);
     return Product.updateProduct({
       user,
-      response,
       ...params,
-      ...request.only(['name', 'user_id', 'type_id', 'price', 'attributes'])
+      ...request.only(['name', 'type_id', 'price', 'attributes'])
     });
   }
 
@@ -45,9 +49,9 @@ class ProductController {
    * Delete a product with id.
    * DELETE products/:id
    */
-  async destroy({ response, params, auth }) {
-    const user = await auth.getUser();
-    return Product.deleteProduct({ user, response, ...params });
+  async destroy({ response, params }) {
+    await Product.deleteProduct(params);
+    return response.status(204).json();
   }
 }
 
