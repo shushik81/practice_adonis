@@ -14,10 +14,8 @@ class TypeController {
    * POST types
    */
   async store({ response, request }) {
-    const { name } = request.all();
     response.status(201);
-
-    return Type.create({ name });
+    return Type.create(request.only(['name']));
   }
 
   /**
@@ -44,7 +42,7 @@ class TypeController {
    */
   async destroy({ response, params }) {
     await Type.deleteType(params);
-    return response.status(204);
+    return response.status(204).json();
   }
 }
 

@@ -7,7 +7,6 @@ class Attribute {
   }
 
   static async addAttr({ name, type_id: typeId }) {
-    console.log(this);
     const type = await Type.findOrFail(typeId);
     return type.attributes().create({ name });
   }

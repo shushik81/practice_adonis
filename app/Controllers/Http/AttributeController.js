@@ -40,7 +40,7 @@ class AttributeController {
    */
   async destroy({ response, params }) {
     await Attribute.deleteAttr(params);
-    return response.status(204);
+    return response.status(204).json();
   }
 }
 

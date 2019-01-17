@@ -16,7 +16,7 @@ const attrsFn = async (data, field, message) => {
   }
 };
 
-Validator.extend('types', attrsFn);
+Validator.extend('attrs', attrsFn);
 
 const typeFn = async (data, field, message) => {
   const { type_id: typeId } = data;

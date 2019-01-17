@@ -8,17 +8,16 @@ class Product {
     return Promise.all(attrs);
   }
 
-  static async addProduct({ name, user_id: userId, type_id: typeId, price, attributes }) {
-    const product = await this.create({ name, user_id: userId, type_id: typeId, price });
+  static async addProduct({ name, user, type_id: typeId, price, attributes }) {
+    const product = await this.create({ name, user_id: user.id, type_id: typeId, price });
     product.attributes = await Product.attachAttrs(product, attributes);
     return product;
   }
 
-  static async updateProduct({ id, name, user_id: userId, type_id: typeId, price, attributes }) {
+  static async updateProduct({ user, id, name, type_id: typeId, price, attributes }) {
     const product = await this.findOrFail(id);
-    await product.merge({ name, user_id: userId, type_id: typeId, price });
+    await product.merge({ name, user_id: user.id, type_id: typeId, price });
     await product.save();
-
     await Product.attachAttrs(product, attributes);
     return this.findProduct({ id });
   }

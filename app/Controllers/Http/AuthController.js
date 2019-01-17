@@ -1,8 +1,7 @@
 class AuthController {
-  async login() {
-    return {
-      test: 'test'
-    };
+  async login({ request, auth }) {
+    const { username, password } = request.all();
+    return auth.attempt(username, password);
   }
 }
 
